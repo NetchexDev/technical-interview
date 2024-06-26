@@ -2,11 +2,11 @@
   "version": "0.2.0",
   "configurations": [
       {
-          "name": "Run GrossToNet",
+          "name": "Run GrossToNet (.NET)",
           "type": "coreclr",
           "request": "launch",
-          "preLaunchTask": "build:gross-to-net",
-          "program": "${workspaceFolder}/gross-to-net/bin/Debug/net8.0/GrossToNet.dll",
+          "preLaunchTask": "dotnet-build:gross-to-net",
+          "program": "${workspaceFolder}/gross-to-net/dotnet/bin/Debug/net8.0/GrossToNet.dll",
           "args": [],
           "cwd": "${workspaceFolder}",
           "stopAtEntry": false,
