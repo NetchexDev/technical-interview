@@ -1,0 +1,166 @@
+[
+  {
+    "input": {
+      "earnings": [
+        {
+          "code": "overtime",
+          "type": "hourly",
+          "hours": 20,
+          "rate": 15,
+          "isTaxable": true
+        },
+        {
+          "code": "regular",
+          "type": "hourly",
+          "hours": 20,
+          "rate": 13,
+          "isTaxable": false
+        },
+        {
+          "code": "bonus",
+          "type": "salary",
+          "amount": 1500,
+          "isTaxable": true
+        }
+      ],
+      "deductions": [
+        {
+          "code": "401k",
+          "type": "percentage",
+          "priority": 1,
+          "value": 10,
+          "isPreTax": false
+        },
+        {
+          "code": "healthInsurance",
+          "type": "flat",
+          "priority": 2,
+          "value": 20,
+          "isPreTax": true
+        }
+      ],
+      "taxes": [
+        {
+          "code": "federalIncome",
+          "type": "percentage",
+          "priority": 1,
+          "value": 10
+        },
+        {
+          "code": "fica",
+          "type": "cappedPercentage",
+          "priority": 2,
+          "value": 10,
+          "cap": 50
+        }
+      ]
+    },
+    "output": {
+      "GrossPay": 2060,
+      "GrossTaxableEarnings": 1800,
+      "Withholdings": [
+        {
+          "Type": "deduction",
+          "Code": "healthInsurance",
+          "AmountWithheld": 20,
+          "Deficit": 0
+        },
+        {
+          "Type": "tax",
+          "Code": "fica",
+          "AmountWithheld": 50,
+          "Deficit": 0
+        },
+        {
+          "Type": "tax",
+          "Code": "federalIncome",
+          "AmountWithheld": 178,
+          "Deficit": 0
+        },
+        {
+          "Type": "deduction",
+          "Code": "401k",
+          "AmountWithheld": 155.2,
+          "Deficit": 0.0
+        }
+      ],
+      "NetPay": 1656.8
+    }
+  },
+  {
+    "input": {
+      "earnings": [
+        {
+          "code": "overtime",
+          "type": "hourly",
+          "hours": 5,
+          "rate": 12,
+          "isTaxable": true
+        },
+        {
+          "code": "bonus",
+          "type": "salary",
+          "amount": 115,
+          "isTaxable": false
+        },
+        {
+          "code": "regular",
+          "type": "hourly",
+          "hours": 10,
+          "rate": 13,
+          "isTaxable": true
+        }
+      ],
+      "deductions": [
+        {
+          "code": "healthInsurance",
+          "type": "percentage",
+          "priority": 1,
+          "value": 20,
+          "isPreTax": true
+        },
+        {
+          "code": "uniform",
+          "type": "flat",
+          "priority": 1,
+          "value": 400,
+          "isPreTax": false
+        }
+      ],
+      "taxes": [
+        {
+          "code": "federalIncome",
+          "type": "cappedPercentage",
+          "priority": 1,
+          "value": 7.5,
+          "cap": 250
+        }
+      ]
+    },
+    "output": {
+      "GrossPay": 305,
+      "GrossTaxableEarnings": 190,
+      "Withholdings": [
+        {
+          "Type": "deduction",
+          "Code": "healthInsurance",
+          "AmountWithheld": 38,
+          "Deficit": 0
+        },
+        {
+          "Type": "tax",
+          "Code": "federalIncome",
+          "AmountWithheld": 11.4,
+          "Deficit": 0.0
+        },
+        {
+          "Type": "deduction",
+          "Code": "uniform",
+          "AmountWithheld": 140.6,
+          "Deficit": 259.4
+        }
+      ],
+      "NetPay": 115.0
+    }
+  }
+]
