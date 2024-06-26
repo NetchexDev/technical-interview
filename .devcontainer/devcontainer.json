@@ -4,6 +4,12 @@
   "features": {
     "ghcr.io/devcontainers/features/dotnet:2": "lts"
   },
-  "postCreateCommand": "dotnet restore",
+  "customizations": {
+  "codespaces": {
+      "openFiles": [
+        "README.md"
+      ]
+    }
+  },
   "remoteUser": "root"
 }
