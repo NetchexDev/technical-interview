@@ -1,0 +1,17 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+      {
+          "label": "build:gross-to-net",
+          "command": "dotnet",
+          "type": "process",
+          "args": [
+              "build",
+              "${workspaceFolder}/gross-to-net/GrossToNet.csproj",
+              "/property:GenerateFullPaths=true",
+              "/consoleloggerparameters:NoSummary"
+          ],
+          "problemMatcher": "$msCompile"
+      }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "name": "Netchex Technical Interview",
+  "image": "mcr.microsoft.com/devcontainers/dotnet:8.0",
+  "features": {
+    "ghcr.io/devcontainers/features/dotnet:2": "lts"
+  },
+  "postCreateCommand": "dotnet restore",
+  "remoteUser": "root"
+}

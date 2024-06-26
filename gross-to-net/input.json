@@ -1,0 +1,55 @@
+{
+  "earnings": [
+    {
+      "code": "overtime",
+      "type": "hourly",
+      "hours": 20,
+      "rate": 15,
+      "isTaxable": true
+    },
+    {
+      "code": "regular",
+      "type": "hourly",
+      "hours": 20,
+      "rate": 13,
+      "isTaxable": false
+    },
+    {
+      "code": "bonus",
+      "type": "salary",
+      "amount": 1500,
+      "isTaxable": true
+    }
+  ],
+  "deductions": [
+    {
+      "code": "401k",
+      "type": "percentage",
+      "priority": 1,  
+      "value": 10,
+      "isPreTax": false
+    },
+    {
+      "code": "healthInsurance",
+      "type": "flat",
+      "priority": 2, 
+      "value": 20,
+      "isPreTax": true
+    }
+  ],
+  "taxes": [
+    {
+      "code": "federalIncome",
+      "type": "percentage",
+      "priority": 1,
+      "value": 10
+    },
+    {
+      "code": "fica",
+      "type": "cappedPercentage",
+      "priority": 2,
+      "value": 10,
+      "cap": 50
+    }
+  ]
+}
