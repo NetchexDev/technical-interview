@@ -1,0 +1,319 @@
+[
+  {
+    "description": "Test 1: Simple hourly worker with no deductions or taxes",
+    "input": {
+      "earnings": [
+        {
+          "code": "regular",
+          "type": "hourly",
+          "hours": 40,
+          "rate": 25.00,
+          "isTaxable": true
+        }
+      ],
+      "deductions": [],
+      "taxes": []
+    },
+    "output": {
+      "grossPay": 1000.00,
+      "grossTaxableEarnings": 1000.00,
+      "withholdings": [],
+      "netPay": 1000.00
+    }
+  },
+  {
+    "description": "Test 2: Simple salary worker with no deductions or taxes",
+    "input": {
+      "earnings": [
+        {
+          "code": "salary",
+          "type": "salary",
+          "amount": 5000.00,
+          "isTaxable": true
+        }
+      ],
+      "deductions": [],
+      "taxes": []
+    },
+    "output": {
+      "grossPay": 5000.00,
+      "grossTaxableEarnings": 5000.00,
+      "withholdings": [],
+      "netPay": 5000.00
+    }
+  },
+  {
+    "description": "Test 3: Mixed taxable and non-taxable hourly earnings",
+    "input": {
+      "earnings": [
+        {
+          "code": "regular",
+          "type": "hourly",
+          "hours": 40,
+          "rate": 20.00,
+          "isTaxable": true
+        },
+        {
+          "code": "reimbursement",
+          "type": "hourly",
+          "hours": 10,
+          "rate": 15.00,
+          "isTaxable": false
+        }
+      ],
+      "deductions": [],
+      "taxes": []
+    },
+    "output": {
+      "grossPay": 950.00,
+      "grossTaxableEarnings": 800.00,
+      "withholdings": [],
+      "netPay": 950.00
+    }
+  },
+  {
+    "description": "Test 4: Mixed taxable and non-taxable salary earnings",
+    "input": {
+      "earnings": [
+        {
+          "code": "salary",
+          "type": "salary",
+          "amount": 3000.00,
+          "isTaxable": true
+        },
+        {
+          "code": "expense_reimbursement",
+          "type": "salary",
+          "amount": 500.00,
+          "isTaxable": false
+        }
+      ],
+      "deductions": [],
+      "taxes": []
+    },
+    "output": {
+      "grossPay": 3500.00,
+      "grossTaxableEarnings": 3000.00,
+      "withholdings": [],
+      "netPay": 3500.00
+    }
+  },
+  {
+    "description": "Test 5: Hourly worker with flat pre-tax deduction",
+    "input": {
+      "earnings": [
+        {
+          "code": "regular",
+          "type": "hourly",
+          "hours": 40,
+          "rate": 25.00,
+          "isTaxable": true
+        }
+      ],
+      "deductions": [
+        {
+          "code": "healthInsurance",
+          "type": "flat",
+          "priority": 1,
+          "value": 150.00,
+          "isPreTax": true
+        }
+      ],
+      "taxes": []
+    },
+    "output": {
+      "grossPay": 1000.00,
+      "grossTaxableEarnings": 1000.00,
+      "withholdings": [
+        {
+          "type": "deduction",
+          "code": "healthInsurance",
+          "amountWithheld": 150.00,
+          "deficit": 0.00
+        }
+      ],
+      "netPay": 850.00
+    }
+  },
+  {
+    "description": "Test 6: Salary worker with percentage pre-tax deduction",
+    "input": {
+      "earnings": [
+        {
+          "code": "salary",
+          "type": "salary",
+          "amount": 5000.00,
+          "isTaxable": true
+        }
+      ],
+      "deductions": [
+        {
+          "code": "401k",
+          "type": "percentage",
+          "priority": 1,
+          "value": 10,
+          "isPreTax": true
+        }
+      ],
+      "taxes": []
+    },
+    "output": {
+      "grossPay": 5000.00,
+      "grossTaxableEarnings": 5000.00,
+      "withholdings": [
+        {
+          "type": "deduction",
+          "code": "401k",
+          "amountWithheld": 500.00,
+          "deficit": 0.00
+        }
+      ],
+      "netPay": 4500.00
+    }
+  },
+  {
+    "description": "Test 7: Hourly worker with flat post-tax deduction",
+    "input": {
+      "earnings": [
+        {
+          "code": "regular",
+          "type": "hourly",
+          "hours": 40,
+          "rate": 25.00,
+          "isTaxable": true
+        }
+      ],
+      "deductions": [
+        {
+          "code": "garnishment",
+          "type": "flat",
+          "priority": 1,
+          "value": 200.00,
+          "isPreTax": false
+        }
+      ],
+      "taxes": []
+    },
+    "output": {
+      "grossPay": 1000.00,
+      "grossTaxableEarnings": 1000.00,
+      "withholdings": [
+        {
+          "type": "deduction",
+          "code": "garnishment",
+          "amountWithheld": 200.00,
+          "deficit": 0.00
+        }
+      ],
+      "netPay": 800.00
+    }
+  },
+  {
+    "description": "Test 8: Salary worker with percentage post-tax deduction",
+    "input": {
+      "earnings": [
+        {
+          "code": "salary",
+          "type": "salary",
+          "amount": 4000.00,
+          "isTaxable": true
+        }
+      ],
+      "deductions": [
+        {
+          "code": "charitableDonation",
+          "type": "percentage",
+          "priority": 1,
+          "value": 5,
+          "isPreTax": false
+        }
+      ],
+      "taxes": []
+    },
+    "output": {
+      "grossPay": 4000.00,
+      "grossTaxableEarnings": 4000.00,
+      "withholdings": [
+        {
+          "type": "deduction",
+          "code": "charitableDonation",
+          "amountWithheld": 200.00,
+          "deficit": 0.00
+        }
+      ],
+      "netPay": 3800.00
+    }
+  },
+  {
+    "description": "Test 9: Hourly worker with percentage tax (basic income tax)",
+    "input": {
+      "earnings": [
+        {
+          "code": "regular",
+          "type": "hourly",
+          "hours": 40,
+          "rate": 30.00,
+          "isTaxable": true
+        }
+      ],
+      "deductions": [],
+      "taxes": [
+        {
+          "code": "federalIncome",
+          "type": "percentage",
+          "priority": 1,
+          "value": 15
+        }
+      ]
+    },
+    "output": {
+      "grossPay": 1200.00,
+      "grossTaxableEarnings": 1200.00,
+      "withholdings": [
+        {
+          "type": "tax",
+          "code": "federalIncome",
+          "amountWithheld": 180.00,
+          "deficit": 0.00
+        }
+      ],
+      "netPay": 1020.00
+    }
+  },
+  {
+    "description": "Test 10: Salary worker with capped percentage tax",
+    "input": {
+      "earnings": [
+        {
+          "code": "salary",
+          "type": "salary",
+          "amount": 5000.00,
+          "isTaxable": true
+        }
+      ],
+      "deductions": [],
+      "taxes": [
+        {
+          "code": "socialSecurity",
+          "type": "cappedPercentage",
+          "priority": 1,
+          "value": 6.2,
+          "cap": 250.00
+        }
+      ]
+    },
+    "output": {
+      "grossPay": 5000.00,
+      "grossTaxableEarnings": 5000.00,
+      "withholdings": [
+        {
+          "type": "tax",
+          "code": "socialSecurity",
+          "amountWithheld": 250.00,
+          "deficit": 0.00
+        }
+      ],
+      "netPay": 4750.00
+    }
+  }
+]

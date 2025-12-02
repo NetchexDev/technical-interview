@@ -1,0 +1,678 @@
+[
+  {
+    "description": "Advanced Test 1: Zero earnings scenario",
+    "input": {
+      "earnings": [],
+      "deductions": [],
+      "taxes": []
+    },
+    "output": {
+      "grossPay": 0,
+      "grossTaxableEarnings": 0,
+      "withholdings": [],
+      "netPay": 0
+    }
+  },
+   {
+    "description": "Advanced Test 2: Pre-tax deduction reduces tax basis",
+    "input": {
+      "earnings": [
+        {
+          "code": "salary",
+          "type": "salary",
+          "amount": 5000.00,
+          "isTaxable": true
+        }
+      ],
+      "deductions": [
+        {
+          "code": "401k",
+          "type": "flat",
+          "priority": 1,
+          "value": 1000.00,
+          "isPreTax": true
+        }
+      ],
+      "taxes": [
+        {
+          "code": "federalIncome",
+          "type": "percentage",
+          "priority": 1,
+          "value": 20
+        }
+      ]
+    },
+    "expectedOutput": {
+      "grossPay": 5000.00,
+      "grossTaxableEarnings": 5000.00,
+      "withholdings": [
+        {
+          "type": "deduction",
+          "code": "401k",
+          "amountWithheld": 1000.00,
+          "deficit": 0.00
+        },
+        {
+          "type": "tax",
+          "code": "federalIncome",
+          "amountWithheld": 800.00,
+          "deficit": 0.00
+        }
+      ],
+      "netPay": 3200.00
+    }
+  },
+  {
+    "description": "Advanced Test 3: Post-tax deduction calculated after pre-tax deductions and taxes",
+    "input": {
+      "earnings": [
+        {
+          "code": "salary",
+          "type": "salary",
+          "amount": 5000.00,
+          "isTaxable": true
+        }
+      ],
+      "deductions": [
+        {
+          "code": "401k",
+          "type": "flat",
+          "priority": 2,
+          "value": 500.00,
+          "isPreTax": true
+        },
+        {
+          "code": "rothIRA",
+          "type": "percentage",
+          "priority": 1,
+          "value": 10,
+          "isPreTax": false
+        }
+      ],
+      "taxes": [
+        {
+          "code": "federalIncome",
+          "type": "percentage",
+          "priority": 1,
+          "value": 15
+        }
+      ]
+    },
+    "expectedOutput": {
+      "grossPay": 5000.00,
+      "grossTaxableEarnings": 5000.00,
+      "withholdings": [
+        {
+          "type": "deduction",
+          "code": "401k",
+          "amountWithheld": 500.00,
+          "deficit": 0.00
+        },
+        {
+          "type": "tax",
+          "code": "federalIncome",
+          "amountWithheld": 675.00,
+          "deficit": 0.00
+        },
+        {
+          "type": "deduction",
+          "code": "rothIRA",
+          "amountWithheld": 382.50,
+          "deficit": 0.00
+        }
+      ],
+      "netPay": 3442.50
+    }
+  },
+  {
+    "description": "Advanced Test 4: Non-taxable earnings not subject to taxes or deductions",
+    "input": {
+      "earnings": [
+        {
+          "code": "salary",
+          "type": "salary",
+          "amount": 3000.00,
+          "isTaxable": true
+        },
+        {
+          "code": "reimbursement",
+          "type": "salary",
+          "amount": 1000.00,
+          "isTaxable": false
+        }
+      ],
+      "deductions": [
+        {
+          "code": "healthInsurance",
+          "type": "percentage",
+          "priority": 1,
+          "value": 10,
+          "isPreTax": true
+        }
+      ],
+      "taxes": [
+        {
+          "code": "federalIncome",
+          "type": "percentage",
+          "priority": 1,
+          "value": 20
+        }
+      ]
+    },
+    "expectedOutput": {
+      "grossPay": 4000.00,
+      "grossTaxableEarnings": 3000.00,
+      "withholdings": [
+        {
+          "type": "deduction",
+          "code": "healthInsurance",
+          "amountWithheld": 300.00,
+          "deficit": 0.00
+        },
+        {
+          "type": "tax",
+          "code": "federalIncome",
+          "amountWithheld": 540.00,
+          "deficit": 0.00
+        }
+      ],
+      "netPay": 3160.00
+    }
+  },
+  {
+    "description": "Advanced Test 5: Multiple flat deductions",
+    "input": {
+      "earnings": [
+        {
+          "code": "regular",
+          "type": "hourly",
+          "hours": 40,
+          "rate": 25.00,
+          "isTaxable": true
+        }
+      ],
+      "deductions": [
+        {
+          "code": "healthInsurance",
+          "type": "flat",
+          "priority": 2,
+          "value": 100.00,
+          "isPreTax": true
+        },
+        {
+          "code": "dentalInsurance",
+          "type": "flat",
+          "priority": 1,
+          "value": 25.00,
+          "isPreTax": true
+        }
+      ],
+      "taxes": []
+    },
+    "expectedOutput": {
+      "grossPay": 1000.00,
+      "grossTaxableEarnings": 1000.00,
+      "withholdings": [
+        {
+          "type": "deduction",
+          "code": "healthInsurance",
+          "amountWithheld": 100.00,
+          "deficit": 0.00
+        },
+        {
+          "type": "deduction",
+          "code": "dentalInsurance",
+          "amountWithheld": 25.00,
+          "deficit": 0.00
+        }
+      ],
+      "netPay": 875.00
+    }
+  },
+  {
+    "description": "Advanced Test 6: Multiple percentage deductions",
+    "input": {
+      "earnings": [
+        {
+          "code": "salary",
+          "type": "salary",
+          "amount": 4000.00,
+          "isTaxable": true
+        }
+      ],
+      "deductions": [
+        {
+          "code": "401k",
+          "type": "percentage",
+          "priority": 2,
+          "value": 5,
+          "isPreTax": true
+        },
+        {
+          "code": "hsa",
+          "type": "percentage",
+          "priority": 1,
+          "value": 3,
+          "isPreTax": true
+        }
+      ],
+      "taxes": []
+    },
+    "expectedOutput": {
+      "grossPay": 4000.00,
+      "grossTaxableEarnings": 4000.00,
+      "withholdings": [
+        {
+          "type": "deduction",
+          "code": "401k",
+          "amountWithheld": 200.00,
+          "deficit": 0.00
+        },
+        {
+          "type": "deduction",
+          "code": "hsa",
+          "amountWithheld": 120.00,
+          "deficit": 0.00
+        }
+      ],
+      "netPay": 3680.00
+    }
+  },
+  {
+    "description": "Advanced Test 7: Only non-taxable earnings with deductions and taxes",
+    "input": {
+      "earnings": [
+        {
+          "code": "giftCard",
+          "type": "salary",
+          "amount": 500,
+          "isTaxable": false
+        }
+      ],
+      "deductions": [
+        {
+          "code": "401k",
+          "type": "percentage",
+          "priority": 1,
+          "value": 10,
+          "isPreTax": false
+        }
+      ],
+      "taxes": [
+        {
+          "code": "federalIncome",
+          "type": "percentage",
+          "priority": 1,
+          "value": 15
+        }
+      ]
+    },
+    "output": {
+      "grossPay": 500,
+      "grossTaxableEarnings": 0,
+      "withholdings": [],
+      "netPay": 500
+    }
+  },
+  {
+    "description": "Advanced Test 8: Insufficient funds - all withholdings have deficits",
+    "input": {
+      "earnings": [
+        {
+          "code": "regular",
+          "type": "hourly",
+          "hours": 10,
+          "rate": 10,
+          "isTaxable": true
+        }
+      ],
+      "deductions": [
+        {
+          "code": "healthInsurance",
+          "type": "flat",
+          "priority": 5,
+          "value": 50,
+          "isPreTax": true
+        },
+        {
+          "code": "401k",
+          "type": "flat",
+          "priority": 3,
+          "value": 30,
+          "isPreTax": false
+        }
+      ],
+      "taxes": [
+        {
+          "code": "federalIncome",
+          "type": "percentage",
+          "priority": 4,
+          "value": 40
+        }
+      ]
+    },
+    "output": {
+      "grossPay": 100,
+      "grossTaxableEarnings": 100,
+      "withholdings": [
+        {
+          "type": "deduction",
+          "code": "healthInsurance",
+          "amountWithheld": 50,
+          "deficit": 0
+        },
+        {
+          "type": "tax",
+          "code": "federalIncome",
+          "amountWithheld": 40,
+          "deficit": 0
+        },
+        {
+          "type": "deduction",
+          "code": "401k",
+          "amountWithheld": 10,
+          "deficit": 20
+        }
+      ],
+      "netPay": 0
+    }
+  },
+  {
+    "description": "Advanced Test 9: Multiple capped taxes with different cap amounts",
+    "input": {
+      "earnings": [
+        {
+          "code": "regular",
+          "type": "salary",
+          "amount": 10000,
+          "isTaxable": true
+        }
+      ],
+      "deductions": [],
+      "taxes": [
+        {
+          "code": "fica",
+          "type": "cappedPercentage",
+          "priority": 1,
+          "value": 7.65,
+          "cap": 500
+        },
+        {
+          "code": "medicare",
+          "type": "cappedPercentage",
+          "priority": 2,
+          "value": 1.45,
+          "cap": 100
+        }
+      ]
+    },
+    "output": {
+      "grossPay": 10000,
+      "grossTaxableEarnings": 10000,
+      "withholdings": [
+        {
+          "type": "tax",
+          "code": "fica",
+          "amountWithheld": 500,
+          "deficit": 0
+        },
+        {
+          "type": "tax",
+          "code": "medicare",
+          "amountWithheld": 100,
+          "deficit": 0
+        }
+      ],
+      "netPay": 9400
+    }
+  },
+  {
+    "description": "Advanced Test 10: Mixed taxable and non-taxable earnings with complex withholdings",
+    "input": {
+      "earnings": [
+        {
+          "code": "regular",
+          "type": "hourly",
+          "hours": 40,
+          "rate": 25,
+          "isTaxable": true
+        },
+        {
+          "code": "overtime",
+          "type": "hourly",
+          "hours": 10,
+          "rate": 37.5,
+          "isTaxable": true
+        },
+        {
+          "code": "expense",
+          "type": "salary",
+          "amount": 200,
+          "isTaxable": false
+        }
+      ],
+      "deductions": [
+        {
+          "code": "401k",
+          "type": "percentage",
+          "priority": 3,
+          "value": 5,
+          "isPreTax": true
+        },
+        {
+          "code": "healthInsurance",
+          "type": "flat",
+          "priority": 5,
+          "value": 150,
+          "isPreTax": true
+        },
+        {
+          "code": "charitableDonation",
+          "type": "percentage",
+          "priority": 1,
+          "value": 2,
+          "isPreTax": false
+        }
+      ],
+      "taxes": [
+        {
+          "code": "federalIncome",
+          "type": "percentage",
+          "priority": 2,
+          "value": 12
+        },
+        {
+          "code": "state",
+          "type": "percentage",
+          "priority": 3,
+          "value": 5
+        }
+      ]
+    },
+    "output": {
+      "grossPay": 1575,
+      "grossTaxableEarnings": 1375,
+      "withholdings": [
+        {
+          "type": "deduction",
+          "code": "healthInsurance",
+          "amountWithheld": 150,
+          "deficit": 0
+        },
+        {
+          "type": "deduction",
+          "code": "401k",
+          "amountWithheld": 68.75,
+          "deficit": 0.0
+        },
+        {
+          "type": "tax",
+          "code": "state",
+          "amountWithheld": 57.8125,
+          "deficit": 0.0
+        },
+        {
+          "type": "tax",
+          "code": "federalIncome",
+          "amountWithheld": 139.5,
+          "deficit": 0.0
+        },
+        {
+          "type": "deduction",
+          "code": "charitableDonation",
+          "amountWithheld": 23.1375,
+          "deficit": 0.0
+        }
+      ],
+      "netPay": 1135.8
+    }
+  },
+  {
+    "description": "Advanced Test 11: Priority tie-breaking with same priority values",
+    "input": {
+      "earnings": [
+        {
+          "code": "regular",
+          "type": "salary",
+          "amount": 100,
+          "isTaxable": true
+        }
+      ],
+      "deductions": [
+        {
+          "code": "deduction1",
+          "type": "flat",
+          "priority": 1,
+          "value": 40,
+          "isPreTax": true
+        },
+        {
+          "code": "deduction2",
+          "type": "flat",
+          "priority": 1,
+          "value": 40,
+          "isPreTax": true
+        }
+      ],
+      "taxes": [
+        {
+          "code": "tax1",
+          "type": "flat",
+          "priority": 1,
+          "value": 30
+        }
+      ]
+    },
+    "output": {
+      "grossPay": 100,
+      "grossTaxableEarnings": 100,
+      "withholdings": [
+        {
+          "type": "deduction",
+          "code": "deduction1",
+          "amountWithheld": 40,
+          "deficit": 0
+        },
+        {
+          "type": "deduction",
+          "code": "deduction2",
+          "amountWithheld": 40,
+          "deficit": 0
+        },
+        {
+          "type": "tax",
+          "code": "tax1",
+          "amountWithheld": 20,
+          "deficit": 10
+        }
+      ],
+      "netPay": 0
+    }
+  },
+  {
+    "description": "Advanced Test 12: Edge case - very small amounts with rounding",
+    "input": {
+      "earnings": [
+        {
+          "code": "regular",
+          "type": "hourly",
+          "hours": 0.5,
+          "rate": 0.33,
+          "isTaxable": true
+        }
+      ],
+      "deductions": [
+        {
+          "code": "401k",
+          "type": "percentage",
+          "priority": 1,
+          "value": 3.33,
+          "isPreTax": false
+        }
+      ],
+      "taxes": [
+        {
+          "code": "federalIncome",
+          "type": "percentage",
+          "priority": 1,
+          "value": 10.5
+        }
+      ]
+    },
+    "output": {
+      "grossPay": 0.165,
+      "grossTaxableEarnings": 0.165,
+      "withholdings": [
+        {
+          "type": "tax",
+          "code": "federalIncome",
+          "amountWithheld": 0.017325,
+          "deficit": 0.0
+        },
+        {
+          "type": "deduction",
+          "code": "401k",
+          "amountWithheld": 0.00491775,
+          "deficit": 0.0
+        }
+      ],
+      "netPay": 0.14275725
+    }
+  },
+  {
+    "description": "Advanced Test 13: Negative scenario - percentage deduction exceeding 100%",
+    "input": {
+      "earnings": [
+        {
+          "code": "regular",
+          "type": "salary",
+          "amount": 1000,
+          "isTaxable": true
+        }
+      ],
+      "deductions": [
+        {
+          "code": "garnishment",
+          "type": "percentage",
+          "priority": 1,
+          "value": 150,
+          "isPreTax": false
+        }
+      ],
+      "taxes": []
+    },
+    "output": {
+      "grossPay": 1000,
+      "grossTaxableEarnings": 1000,
+      "withholdings": [
+        {
+          "type": "deduction",
+          "code": "garnishment",
+          "amountWithheld": 1000,
+          "deficit": 500
+        }
+      ],
+      "netPay": 0
+    }
+  }
+]

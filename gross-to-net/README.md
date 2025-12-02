@@ -1,84 +1,75 @@
-# Gross-to-net Pay Check Coding Challenge
+# Gross-to-Net Payroll Calculator
 
-Requirements:
+Implement the `Calculate` method in `PayrollCalculator.cs` which accepts three collections as arguments... `earnings`, `deductions`, and `taxes` then returns a `PayrollResult` with `grossPay`, `grossTaxableEarnings`, a list of `witholdings`, and `netPay`.
 
-- Calculate the net pay as follows: net pay = taxable earnings - pre-tax deductions - taxes - post-tax deductions + non-taxable earnings
-- Earning types
-  - Salary earnings are defined by a flat `amount`
-  - Hourly earnings are defined by an amount of `hours` and a `rate`
-- Earnings that are not taxable are not withheld by deductions or taxes
-- Pre-tax deductions are based on gross taxable-pay
-- Flat vs percentage deductions (percentages encoded as `value / 100`)
-- Taxes are based on gross taxable-pay less pre-tax deductions
-- Taxes with a cap should not be withheld above the cap
-- Post-tax deductions are based on gross taxable-pay less pre-tax deductions and taxes
-- Deduction and tax priority
-  - When taxable earnings are less than deductions and taxes, withholding priority is as follows: pre-tax deductions before taxes before post-tax deductions.
-  - For each deduction and tax, a higher `priority` value indicates this item should be withheld first.
-  - If a deduction or tax is cannot be withheld to the full amount, the deficit is recorded.
-- Output the following
-  - Gross pay
-  - Net pay to employee
-  - Amounts withheld for deductions and taxes by code with deficits
+## Requirements
 
-Sample input object:
+### NetPay Calculation
 
-```json
-{
-  "earnings": [
-    {
-      "code": "overtime",
-      "type": "hourly",
-      "hours": 20,
-      "rate": 15,
-      "isTaxable": true
-    },
-    {
-      "code": "regular",
-      "type": "hourly",
-      "hours": 20,
-      "rate": 13,
-      "isTaxable": false
-    },
-    {
-      "code": "bonus",
-      "type": "salary",
-      "amount": 1500,
-      "isTaxable": true
-    }
-  ],
-  "deductions": [
-    {
-      "code": "401k",
-      "type": "percentage",
-      "priority": 1,  
-      "value": 10,
-      "isPreTax": false
-    },
-    {
-      "code": "healthInsurance",
-      "type": "flat",
-      "priority": 2, 
-      "value": 20,
-      "isPreTax": true
-    }
-  ],
-  "taxes": [
-    {
-      "code": "federalIncome",
-      "type": "percentage",
-      "priority": 1,
-      "value": 10
-    },
-    {
-      "code": "fica",
-      "type": "cappedPercentage",
-      "priority": 2,
-      "value": 10,
-      "cap": 50
-    }
-  ]
-}
+`NetPay = GrossTaxableEarnings - PreTaxDeductions - Taxes - PostTaxDeductions + NonTaxableEarnings`
+
+### Earnings
+
+- Types: `salary`, `hourly`
+- Salary earnings have a flat `amount`
+- Hourly earnings amount is `hours × rate`
+- Only taxable earnings are included when calculating deductions/taxes
+
+### Deductions
+
+- Types: `flat`, `percentage`
+- Flat decductions have a fixed dollar `value`
+- Percentage deductions are calculated as `value / 100` of basis
+- Pre-tax deductions reduce tax basis, calculated with gross taxable earnings
+- Post-tax deductions do not reduce tax basis
+
+### Taxes
+
+- Types: `percentage`, `cappedPercentage`
+- Percentage taxes are calculated as `value / 100` of basis using (gross taxable earnings - pre-tax deductions)
+- Capped Percentage has a max value defined by the `cap` property
+
+### Witholdings
+
+- Types: `tax`, `deductions`
+- Deductions are either Pre-Tax or Post-Tax depending on the `isPrefix` value.
+- Witholding groups are applied using the following order:
+  - PreTax Deductions
+  - Taxes
+  - PostTax Deductions
+- Within each group, withholdings are applied in order of their `priority` value (highest `priority` first)
+- When a withholding exceeds available earnings the difference is added as a `deficit` as NetPay cannot go below zero.
+
+## Build and Run
+
+To test your solution, Program.main() contains a test harness for loading test data from a json file and comparing the expected output to the actual output provided by your `Calculate` method and report the result.
+
+A json file containing basic test cases is included in the project, `test-cases.json`, but you are encouraged to add additional test cases as needed. Additional test cases may be used to verify edge cases and common defects during your interview.
+
+### IDE
+
+An online VSCode codespace will be used during assesmments and candidates are free to install extensions available in the vs code default extension marketplace.
+
+Start Debug: `F5`
+
+### Commmand-line
+
+Navigate to the project root e.g. `gross-to-net/dotnet/` then use _dotnet_ CLI commands.
+
+Building from CLI
+
+```ps
+dotnet build
 ```
 
-All test cases and solutions can be found in `test-cases.json`
+Running from CLI
+
+```ps
+dotnet run
+```
+
+Show Help Text
+
+```ps
+dotnet run -- --help
+```

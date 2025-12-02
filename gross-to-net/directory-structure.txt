@@ -1,0 +1,64 @@
+Folder PATH listing for volume Windows
+Volume serial number is 7EA5-7906
+C:.
+|   advanced-test-cases.json
+|   directory-structure.txt
+|   input.json
+|   INTERVIEWER_README.md
+|   README.md
+|   test-cases.json
+|   
+\---dotnet
+    |   GrossToNet.csproj
+    |   PayrollCalculator.cs
+    |   Program.cs
+    |   
+    +---bin
+    |   \---Debug
+    |       \---net8.0
+    |               advanced-test-cases.json
+    |               GrossToNet.deps.json
+    |               GrossToNet.dll
+    |               GrossToNet.exe
+    |               GrossToNet.pdb
+    |               GrossToNet.runtimeconfig.json
+    |               input.json
+    |               test-cases.json
+    |               
+    +---models
+    |       Deduction.cs
+    |       Earning.cs
+    |       PayrollData.cs
+    |       PayrollResult.cs
+    |       Tax.cs
+    |       Withholding.cs
+    |       
+    \---obj
+        |   GrossToNet.csproj.nuget.dgspec.json
+        |   GrossToNet.csproj.nuget.g.props
+        |   GrossToNet.csproj.nuget.g.targets
+        |   project.assets.json
+        |   project.nuget.cache
+        |   
+        \---Debug
+            \---net8.0
+                |   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+                |   apphost.exe
+                |   GrossToNet.AssemblyInfo.cs
+                |   GrossToNet.AssemblyInfoInputs.cache
+                |   GrossToNet.assets.cache
+                |   GrossToNet.csproj.CoreCompileInputs.cache
+                |   GrossToNet.csproj.FileListAbsolute.txt
+                |   GrossToNet.dll
+                |   GrossToNet.GeneratedMSBuildEditorConfig.editorconfig
+                |   GrossToNet.genruntimeconfig.cache
+                |   GrossToNet.GlobalUsings.g.cs
+                |   GrossToNet.pdb
+                |   GrossToNet.sourcelink.json
+                |   
+                +---ref
+                |       GrossToNet.dll
+                |       
+                \---refint
+                        GrossToNet.dll
+                        
