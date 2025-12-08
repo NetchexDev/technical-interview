@@ -5,7 +5,12 @@
     "ghcr.io/devcontainers/features/dotnet:2": "lts"
   },
   "customizations": {
-  "codespaces": {
+    "vscode": {
+      "extensions": [
+        "ms-vsliveshare.vsliveshare"
+      ]
+    },
+    "codespaces": {
       "openFiles": [
         "README.md"
       ]
